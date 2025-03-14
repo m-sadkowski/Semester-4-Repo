@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+venv/
+.env
+*.egg-info/
+
+# PyCharm
+.idea/
+*.iml
+
+# C++
+*.exe
+*.obj
+*.o
+*.dll
+*.lib
+*.pdb
+.vscode/
+.vs/
+
+# Java
+*.class
+*.jar
+*.war
+*.ear
+*.log
+*.tmp
+*.out
+*.iml
+.gradle/
+build/
+target/
+
+# IntelliJ IDEA
+.idea/
+out/
+
+# Systemowe
+.DS_Store
+Thumbs.db
