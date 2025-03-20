@@ -1,3 +1,6 @@
+// Michał Sadkowski 197776
+// 5/5pkt
+
 // Data model
 struct Location {
     var id: Int

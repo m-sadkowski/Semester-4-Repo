@@ -62,9 +62,9 @@ for _ in range(generations):
             child = parent_1[half_len:] + parent_2[:half_len:]
 
         # 2.1.4 Mutacja
-        for i in range(len(child)):
-            if random.random() < mutation_rate:
-                child[i] = not child[i]
+        if random.random() < mutation_rate:
+            x = random.randint(0, len(child) - 1)
+            child[x] = not child[x]
 
         new_population.append(child)
 
