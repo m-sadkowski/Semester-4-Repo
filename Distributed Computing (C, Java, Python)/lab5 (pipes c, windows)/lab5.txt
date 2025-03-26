@@ -1,0 +1,25 @@
+Jaką rolę pełni nazwany potok Named Pipe w tym programie?
+Nazwany potok w tym programie pełni rolę mechanizmu komunikacji międzyprocesowej pomiędzy klientem a serwerem. Serwer tworzy nazwany potok "\\\\.\\pipe\\example_pipe", do którego klient może się podłączyć, aby wysyłać i odbierać dane. Ten potok to kanał, przez który dane są wymieniane w obu kierunkach (PIPE_ACCESS_DUPLEX), klient wysyła wiadomości i serwer odpowiada.
+
+Jak działa synchronizacja między klientem a serwerem?
+Synchronizacja między klientem a serwerem jest realizowana w kilku etapach:
+- serwer tworzy nazwany potok i czeka na połączenie klienta za pomocą funkcji ConnectNamedPipe. Potok jest blokujący, więc serwer czeka, aż klient się połączy.
+- klient próbuje połączyć się z serwerem. Gdy potok jest zajęty, klient próbuje ponownie się połączyć, używając funkcji WaitNamedPipe, co pozwala na synchronizację przy próbie wielokrotnego połączenia.
+- gdy połączenie zostanie ustanowione, dane są wymieniane za pomocą funkcji ReadFile i WriteFile. Synchronizacja opiera się na blokadach, bo gdy klient lub serwer czeka na dane, to ten drugi musi je wysłać.
+
+Jak serwer odczytuje dane od klienta i jak odpowiada?
+Serwer odczytuje dane od klienta za pomocą funkcji ReadFile. Dane są odbierane w blokach, które są zapisywane do bufora, a następnie wyświetlane na ekranie. Po odebraniu danych serwer tworzy odpowiedź w buforze i wysyła ją z powrotem do klienta za pomocą funkcji WriteFile. 
+
+Jak klient i serwer kończą połączenie?
+Serwer kończy połączenie, gdy odbierze wiadomość "exit" od klienta, po czym zamyka uchwyt do potoku za pomocą funkcji CloseHandle.
+
+Jakie błędy mogą wystąpić podczas uruchamiania tego programu?
+Po stronie serwera:
+- błąd podczas tworzenia potoku - funkcja CreateNamedPipe może zwrócić INVALID_HANDLE_VALUE, a kod błędu można uzyskać za pomocą GetLastError.
+- błąd podczas oczekiwania na połączenie z klientem (gdy !connected).
+Po stronie klienta:
+- błąd podczas próby połączenia z potokiem, gdy potok jest zajęty (kod błędu ERROR_PIPE_BUSY). Klient podejmuje próby połączenia, ale jeśli potok nie jest dostępny, po 5 próbach kończy działanie z odpowiednim komunikatem.
+- błąd ustawienia trybu potoku SetNamedPipeHandleState, jeśli nie można zmienić trybu potoku na tryb wiadomości.
+- błędy podczas wysyłania danych (gdy !WriteFile)
+- błędy podczas odczytu odpowiedzi od serwera ReadFile
+

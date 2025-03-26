@@ -1,0 +1,37 @@
+Jakie zadanie realizuje ten program?
+Komunikację klient-serwer za pomocą gniazdek TCP:
+- Serwer i klient inicjalizują bibliotekę Winsock
+- Serwer tworzy gniazdo nasłuchujące na porcie 8888 do którego łączy się klient
+- Klient wysyła wiadomości do serwera i odbiera odpowiedzi od serwera (w trybie echo)
+- Serwer możliwia użytkownikowi interaktywne wysyłanie wiadomości i obsługuje wielu klientów
+
+Jakie kroki wykonuje klient, aby połączyć się z serwerem?
+- Inicjalizuje Winsock – funckja WSAStartup()
+- Używa funkcji getaddrinfo(), aby uzyskać adres IP serwera na podstawie nazwy "localhost" i portu 8888
+- Tworzy gniazdo TCP za pomocą funkcji socket()
+- Nawiązuje połączenie z serwerem przy użyciu funkcji connect()
+- Wprowadza wiadomości i wysyła je do serwera za pomocą send()
+- Odbiera odpowiedzi od serwera za pomocą recv()
+- Po wysłaniu wiadomości exit, zamyka połączenie i wywołuje closesocket(), a na końcu WSACleanup()
+
+Jakie funkcje wykorzystuje serwer do obsługi klientów?
+- Wywołuje funkcję WSAStartup() w celu inicjalizacji biblioteki Winsock
+- Używa getaddrinfo() do uzyskania informacji o adresie i porcie
+- Tworzy gniazdo TCP za pomocą socket()
+- Wiąże gniazdo z określonym adresem IP i portem za pomocą bind()
+- Nasłuchuje na porcie 8888 za pomocą listen()
+- Akceptuje połączenie z klientem przez accept()
+- Odbiera wiadomości od klienta za pomocą recv(), a następnie odsyła je z powrotem za pomocą send()
+- Zamyka połączenie z klientem po zakończeniu komunikacji za pomocą closesocket()
+
+Jakie błędy mogą wystąpić podczas uruchamiania tego programu?
+- Jeśli funkcja WSAStartup() zwróci wartość inną niż 0, oznacza to błąd podczas inicjalizacji biblioteki Winsock
+- getaddrinfo() może zakończyć się niepowodzeniem, jeśli nie uda się rozwiązać nazwy serwera lub portu
+- Jeśli socket() zwróci wartość INVALID_SOCKET, oznacza to, że nie udało się utworzyć gniazda
+- connect() może zakończyć się błędem, jeśli klient nie może połączyć się z serwerem
+- send() i recv() mogą zwrócić błąd, jeśli wystąpi problem z komunikacją sieciową
+- bind() może zakończyć się błędem, jeśli port jest już zajęty lub gniazdo nie może zostać przypisane do określonego adresu
+- listen() może zakończyć się błędem, jeśli nie można rozpocząć nasłuchiwania na porcie
+
+Jak klient i serwer kończą połączenie?
+Klient kończy połączenie, gdy wpisuje exit w terminalu. Program wtedy wychodzi z głównej pętli, zamyka gniazdo klienta za pomocą closesocket() i kończy działanie WSACleanup(). Po zakończeniu komunikacji z klientem, serwer zamyka gniazdo klienta, ale dalej nasłuchuje nowych połączeń od innych klientów.

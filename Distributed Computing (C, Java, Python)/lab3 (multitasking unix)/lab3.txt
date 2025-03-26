@@ -1,0 +1,51 @@
+------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------UNIX------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------
+1. Co to jest wieloprocesowość i jakie korzyści przynosi w systemach operacyjnych?
+	- pozwala na współbieżne przetwarzanie zadań użytkownika umożliwiając lepsze wykorzystanie zasobów.
+------------------------------------------------------------------------------------------------------------------------------------------
+2. Czym różni się proces od wątku w systemie UNIX?
+	- wątki od procesów różnią się przede wszystkim tym, że pozwalają na współdzielenie segmentu danych.
+------------------------------------------------------------------------------------------------------------------------------------------
+3. Jakie zasoby mogą być współdzielone między procesami?
+	- segment kodu 
+------------------------------------------------------------------------------------------------------------------------------------------
+4. Jaka jest rola powłoki (shell) w systemie UNIX?
+	-  jest częścią systemu operacyjnego, która jest odpowiedzialna za wykonywanie poleceń użytkownika oraz skryptów. Możemy ją kojarzyć z interpreterem poleceń w systemach MsDOS i MsWindows.
+------------------------------------------------------------------------------------------------------------------------------------------
+5. Jak sprawdzić, jaka powłoka została przydzielona użytkownikowi?
+	- należy wykonać polecenie finger
+------------------------------------------------------------------------------------------------------------------------------------------
+6. Jakie są dwa główne rodzaje poleceń wykonywanych przez powłokę i czym się różnią?
+	- wykonywane przez powłokę polecenia użytkownika mogą być zewnętrzne: będą to wówczas programy oraz wewnętrzne: interpretowane i wykonane przez program powłoki. Skrypty są plikami tekstowymi, których kolejne linie są wykonywane 		tak jak polecenia użytkownika.
+------------------------------------------------------------------------------------------------------------------------------------------
+7. Jak działa mechanizm wykonywania poleceń w tle i jak można je przywrócić na pierwszy plan?
+	- nie zawsze program powłoki musi oczekiwać na zakończenie procesu potomnego. Umożliwia to mechanizm uruchamiania poleceń "w tle". Aby uruchomić polecenie w tle, należy linię polecenia zakończyć znakiem &. Zadania wykonywane w 		tle pracują współbieżnie względem programu powłoki. Dzięki temu możemy uruchamiać czasochłonne zadania nie tracąc jednocześnie dostępu do powłoki. Ponadto w środowisku graficznym możemy uruchamiać nowe programy, które będą 		wyświetlane we własnych oknach. W dowolnym momencie wykonywania zadań w tle, możemy spowodować, że dowolne zadanie zostanie przeniesione jako zadanie bieżące i program powłoki będzie oczekiwał na jego zakończenie. Wykonujemy to za pomocą polecenia fg <numer_zadania>.
+------------------------------------------------------------------------------------------------------------------------------------------
+8. Jakie polecenie można wykorzystać do wyświetlenia listy uruchomionych procesów dla określonego użytkownika?
+	- ps -u nazwa_użytkownika
+------------------------------------------------------------------------------------------------------------------------------------------
+9. Co oznacza symbol & na końcu polecenia w powłoce UNIX?
+	- aby uruchomić polecenie w tle, należy linię polecenia zakończyć znakiem &.
+------------------------------------------------------------------------------------------------------------------------------------------
+10. Jakie polecenie pozwala wyświetlić listę wszystkich zadań uruchomionych w tle?
+	- jobs
+------------------------------------------------------------------------------------------------------------------------------------------
+11. Co robi polecenie ps -u student | grep pts/1 i jak działa jego składnia?
+	- konstrukcja nazywa się potokiem poleceń i polega na tym, że program powłoki uruchamia dwa procesy: ps i grep, a następnie standardowe wyjście procesu ps łączy ze standardowym wejściem procesu grep. Istotne jest to, że oba 	procesy wykonują się współbieżnie.
+	ps -u student – wyświetla listę procesów należących do użytkownika student.
+	grep pts/1 – filtruje wyniki, wyświetlając tylko te procesy, które są powiązane z terminalem pts/1.
+------------------------------------------------------------------------------------------------------------------------------------------
+12. Jak działa funkcja fork() i jakie wartości może zwrócić?
+	- funkcja ta powoduje, że zostaje utworzona dokładna kopia bieżącego procesu i uruchomiona od następnej instrukcji występującej po funkcji fork(). Dlatego, aby rozróżnić, który proces jest procesem pierwotnym a który potomnym, 		należy zbadać wynik funkcji fork(). W procesie macierzystym zwróci ona wartość będącą identyfikatorem stworzonego procesu potomnego, tymczasem proces potomny rozpocznie wykonanie tak, jakby funkcja fork() zwróciła wartość zero.
+------------------------------------------------------------------------------------------------------------------------------------------
+13. Co robi funkcja getpid() i getppid()?
+	- funkcja getpid() zwraca identyfikator wywoływanego procesu, natomiast podobna funkcja getppid() zwraca identyfikator przodka wywoływanego procesu.
+------------------------------------------------------------------------------------------------------------------------------------------
+14. Jakie są różnice między funkcjami execvp(), execlp() i execv()?
+	- w systemie UNIX oczywiście możliwe jest stworzenie procesu potomnego, który realizuje kod nowego programu. Realizowane jest to w taki sposób, że po stworzeniu procesu potomnego, wykonuje on jedną z funkcji exec(), które 	powodują załadowanie kodu nowego procesu i rozpoczęcie jego wykonywania. Funkcje te umożliwiają przekazanie parametrów dla nowego programu w postaci kolejnych argumentów (funkcje z literą l) lub w postaci tablicy (funkcje z 	literą v). Przyjmuje się, że za ostatnim argumentem będzie umieszczona wartość NULL. Funkcje, które zawierają w nazwie literę p szukają podanego programu na ścieżce systemowej.
+------------------------------------------------------------------------------------------------------------------------------------------
+15. Do czego służy funkcja waitpid() i w jakim celu się ją wykorzystuje?
+	- proces macierzysty może przejść w stan oczekiwania na zakończenie działania dowolnego procesu potomnego. Służy do tego funkcja systemowa waitpid().
