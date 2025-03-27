@@ -6,8 +6,8 @@ cities = load_cities("France.txt")
 N, M = 5, 3
 
 print("\nOczekiwane: ", factorial(N) / factorial(N - M))
-for i, p in enumerate(permutations_m_from_n(cities, N, M), 1):
-     print(i, [city["name"] for city in p])
+for i, v in enumerate(variations(cities, N, M), 1):
+     print(i, [city["name"] for city in v])
 
 print("\nOczekiwane: ", newton(M + N - 1, N - 1))
 for i, m in enumerate(multisets(cities, N, M), 1):

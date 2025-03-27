@@ -9,7 +9,7 @@ def factorial(n) -> int:
 def newton(n, k) -> int:
     return factorial(n) / (factorial(k) * factorial(n-k))
 
-def permutations_m_from_n(elements, N, M):
+def variations(elements, N, M):
     if M == 0:
         return [[]]
     if N < M or N == 0:
@@ -18,8 +18,8 @@ def permutations_m_from_n(elements, N, M):
     generated = []
     for i in range(N):
         rest = elements[:i] + elements[i + 1:]
-        for p in permutations_m_from_n(rest, len(rest), M - 1):
-            generated.append([elements[i]] + p)
+        for v in variations(rest, len(rest), M - 1):
+            generated.append([elements[i]] + v)
     return generated
 
 def multisets(elements, N, M):
@@ -37,7 +37,7 @@ def distance(latitude1, latitude2, longitude1, longitude2):
     return math.sqrt((latitude2 - latitude1)**2 + (longitude2 - longitude1)**2)
 
 def shortest_route(cities, N, M):
-    routes = permutations_m_from_n(cities, N, M)
+    routes = variations(cities, N, M)
     distances = []
     for route in routes:
         current_distance = 0
@@ -49,14 +49,26 @@ def shortest_route(cities, N, M):
     distances.sort(key=lambda x: x[1])
     return distances
 
+def combinations(elements, N, K):
+    if K == 0:
+        return [[]]
+    if N < K or N == 0:
+        return []
+    elements = elements[:N]
+    generated = []
+    for i in range(N):
+        rest = elements[i + 1:]
+        for c in combinations(rest, len(rest), K - 1):
+            generated.append([elements[i]] + c)
+    return generated
+
 def population_probability(cities, N, M):
-    subsets = multisets(cities, N, M)
+    subsets = combinations(cities, N, M)
     sum_all = sum(city['population'] for city in cities[:N])
     valid_subsets = 0
     for subset in subsets:
-        unique_subset = list({city['id']: city for city in subset}.values())
-        current_sum = sum(city['population'] for city in unique_subset)
+        current_sum = sum(city['population'] for city in subset)
         if 0.4 * sum_all <= current_sum <= 0.6 * sum_all:
             valid_subsets += 1
-    return valid_subsets / sum(1 for _ in subsets)
+    return valid_subsets / len(subsets)
 
