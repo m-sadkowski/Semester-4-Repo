@@ -5,8 +5,8 @@ from minmaxagent import MinMaxAgent
 from alphabetaagent import AlphaBetaAgent
 
 connect4 = Connect4(width=7, height=6)
-agent1 = AlphaBetaAgent('o')
-agent2 = MinMaxAgent('x')
+agent1 = MinMaxAgent('o')
+agent2 = AlphaBetaAgent('x')
 while not connect4.game_over:
     connect4.draw()
     try:
