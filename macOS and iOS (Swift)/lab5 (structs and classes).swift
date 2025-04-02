@@ -1,5 +1,3 @@
-/* 7pkt, wszystko zrobione */
-
 import Foundation
 
 enum FeedType: String, Codable {

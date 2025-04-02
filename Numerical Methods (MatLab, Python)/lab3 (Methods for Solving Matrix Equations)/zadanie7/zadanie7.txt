@@ -1,0 +1,16 @@
+Rezultaty obliczeń dla równania macierzowego z filtrem mikrofalowym:
+
+1. Metoda bezpośrednia:
+	- norma residuum = 7.13 * 10^-13
+	- osiągnęła bardzo małą normę residuum, co świadczy o wysokiej dokładności rozwiązania. Jest to skuteczna metoda dla tego układu równań.
+
+2. Metoda Jacobiego:
+	- norma residuum = NaN (+inf)
+	- końcowa norma residuum wynosi NaN, więc wystąpił brak zbieżności. Może to wynikać z obecności zer na diagonali macierzy A (macierz D jest wtedy osobliwa, czyli nie jest odwracalna). Alternatywnie, macierz A może nie spełniać warunków zbieżności metody Jacobiego (np. brak diagonalnej dominacji).
+
+3. Metoda Gaussa-Seidla:
+	- norma residuum = 1.84 * 10^9
+	- również nie zbiegła się. Przyczyną jest prawdopodobnie brak własności gwarantujących zbieżność (np. macierz nie jest dodatnio określona lub diagonalnie dominująca, czyli dla co najmniej jednego wiersza suma elementów pozadiagonalnych jest większa niż element na przekątnej).
+
+Podsumowanie:
+Metody iteracyjne (Jacobi, Gauss-Seidel) nie są skuteczne dla tego problemu, co wynika najprawdopodobniej z właściwości macierzy A. Tylko metoda bezpośrednia dała wiarygodne rozwiązanie. W symulacjach elektromagnetycznych macierze często nie są diagonalnie dominujące, co uniemożliwia zastosowanie podstawowych metod iteracyjnych. W praktyce stosuje się wtedy bardziej zaawansowane algorytmy lub metody bezpośrednie dla mniejszych układów. Dla bardzo dużych układów konieczne jest dobranie odpowiedniej metody iteracyjnej dostosowanej do specyfiki macierzy.
