@@ -1,5 +1,6 @@
 from exceptions import GameplayException
 
+
 class Connect4:
     def __init__(self, width=5, height=4):
         self.width = width

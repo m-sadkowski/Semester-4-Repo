@@ -1,10 +1,12 @@
 from heuristic import heuristic
 import copy
 
+
 class MinMaxAgent:
-    def __init__(self, token, depth=4):
+    def __init__(self, token, is_heuristic, depth):
         self.my_token = token
         self.depth = depth
+        self.is_heuristic = is_heuristic
 
     def decide(self, connect4):
         v_best, y_best = -float('inf'), None
@@ -27,8 +29,10 @@ class MinMaxAgent:
             else:
                 return -1
 
-        if depth == 0:
+        if depth == 0 and self.is_heuristic:
             return heuristic(self.my_token, connect4)
+        if depth == 0 and not self.is_heuristic:
+            return 0
 
         if is_maximizing:
             value = -float('inf')

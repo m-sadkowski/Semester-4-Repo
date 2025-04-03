@@ -1,10 +1,12 @@
 from heuristic import heuristic
 import copy
 
+
 class AlphaBetaAgent:
-    def __init__(self, token, depth=5):
+    def __init__(self, token, is_heuristic, depth):
         self.my_token = token
         self.depth = depth
+        self.is_heuristic = is_heuristic
 
     def decide(self, connect4):
         alfa = -float('inf')
@@ -28,8 +30,10 @@ class AlphaBetaAgent:
             else:
                 return -1
 
-        if depth == 0:
+        if depth == 0 and self.is_heuristic:
             return heuristic(self.my_token, connect4)
+        if depth == 0 and not self.is_heuristic:
+            return 0
 
         if is_maximizing:
             value = -float('inf')
@@ -51,4 +55,3 @@ class AlphaBetaAgent:
                 if value <= alpha:
                     break
             return value
-
