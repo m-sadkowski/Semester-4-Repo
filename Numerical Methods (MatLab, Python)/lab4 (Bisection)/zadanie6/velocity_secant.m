@@ -1,21 +1,23 @@
-function [xvec,xdif,xsolution,ysolution,iterations] = velocity_bisection()
-% Wyznacza miejsce zerowe funkcji velocity_difference metodą bisekcji.
-% xvec - wektor z kolejnymi przybliżeniami miejsca zerowego, gdzie xtab(1)= (a+b)/2
-% xdiff(i) = abs(xvec(i+1)-xvec(i)); wektor różnic kolejnych przybliżeń miejsca zerowego
+function [xvec,xdif,xsolution,ysolution,iterations] = velocity_secant()
+% Wyznacza miejsce zerowe funkcji velocity_difference metodą siecznych.
+% xvec - wektor z kolejnymi przybliżeniami miejsca zerowego;
+%   xvec(1)=x2 przy założeniu, że x0 i x1 są punktami startowymi
+% xdif - wektor różnic kolejnych przybliżeń miejsca zerowego
+%   xdif(i) = abs(xvec(i+1)-xvec(i));
 % xsolution - obliczone miejsce zerowe
-% ysolution - wartość funkcji velocity_difference wyznaczona dla t=xsolution
+% ysolution - wartość funkcji velocity_difference wyznaczona dla f=xsolution
 % iterations - liczba iteracji wykonana w celu wyznaczenia xsolution
 
-a = 1; % lewa granica przedziału poszukiwań miejsca zerowego
-b = 40; % prawa granica przedziału poszukiwań miejsca zerowego
+x0 = 1; % pierwszy punkt startowy metody siecznych
+x1 = 40; % drugi punkt startowy metody siecznych
 ytolerance = 1e-12; % tolerancja wartości funkcji w przybliżonym miejscu zerowym.
 % Warunek abs(f1(xsolution))<ytolerance określa jak blisko zera ma znaleźć
 % się wartość funkcji w obliczonym miejscu zerowym funkcji f1(), aby obliczenia
 % zostały zakończone.
 max_iterations = 1000; % maksymalna liczba iteracji wykonana przez alg. bisekcji
 
-fa = velocity_difference(a);
-fb = velocity_difference(b);
+f0 = velocity_difference(x0);
+f1 = velocity_difference(x1);
 
 xvec = [];
 xdif = [];
@@ -23,30 +25,20 @@ xsolution = Inf;
 ysolution = Inf;
 iterations = max_iterations;
 
-for ii=1:max_iterations
-    c = (a + b) / 2;
-    xvec(ii,1) = c;
-    fc = velocity_difference(c);
-
-    if ii > 1
-        xdif(ii-1) = abs(xvec(ii) - xvec(ii-1));
-    end
-
-    if abs(fc) < ytolerance
-        xsolution = c;
-        ysolution = fc;
+for ii = 1:max_iterations
+    x2 = x1 - (f1 * (x1 - x0)) / (f1 - f0);
+    xvec(ii, 1) = x2;
+    f2 = velocity_difference(x2);
+    if abs(f2) < ytolerance
+        xsolution = x2;
+        ysolution = f2;
         iterations = ii;
-        break
+        break;
     end
-
-    if fa * fc < 0
-        b = c;
-        fb = fc;
-    else
-        a = c;
-        fa = fc;
-    end
-    
+    x0 = x1;
+    x1 = x2;
+    f0 = f1;
+    f1 = f2;
 end
 
 xdif = abs(diff(xvec));
@@ -61,7 +53,7 @@ grid on;
 
 subplot(2,1,2); 
 semilogy(1:iterations-1, xdif, 'LineWidth', 2);
-title("Zbieżność metody bisekcji");
+title("Zbieżność metody siecznych");
 xlabel("Iteracja");
 ylabel("Różnica między kolejnymi przybliżeniami");
 grid on;
@@ -69,7 +61,6 @@ grid on;
 end
 
 function velocity_delta = velocity_difference(t)
-% t - czas od startu rakiety
 
 u = 2000;
 m0 = 150000;

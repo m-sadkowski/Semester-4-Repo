@@ -1,5 +1,4 @@
 function velocity_delta = velocity_difference(t)
-% t - czas od startu rakiety
 
 u = 2000;
 m0 = 150000;

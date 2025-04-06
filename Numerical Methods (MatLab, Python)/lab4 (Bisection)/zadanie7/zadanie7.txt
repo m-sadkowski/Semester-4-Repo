@@ -1,0 +1,27 @@
+1. Dla punktu startowego 4.5:
+
+Działanie:
+- znaleziono przedział [4.24544, 4.75456], w którym tan(x) zmienia znak z dodatniego na ujemny.
+- punkt 4.7124 (~3π/2 ≈ 4.71238898) jest asymptotą pionową funkcji tan(x), a nie miejscem zerowym. Funkcja zmienia znak wokół asymptoty (tan(4.7) > 0, tan(4.72) < 0), co myli algorytm.
+- wartości funkcji tan(x) rosną do ±∞ w miarę zawężania przedziału (np. f(x) = 1.0881e+07, 1.70809e+09).
+- fzero błędnie interpretuje zmianę znaku wokół asymptoty jako miejsce zerowe, mimo ostrzeżenia o możliwej osobliwości.
+
+Podsumowanie: punkt 4.5 jest blisko asymptoty (3π/2), która generuje zmianę znaku, przez co algorytm wykrywa fałszywe miejsce zerowe. Występuje ostrzeżenie o osobliwości, jednak wynik jest błędny.
+
+2. Dla punktu startowego 6.0:
+
+Działanie:
+- znaleziono przedział [5.66059, 6.33941], w którym tan(x) zmienia znak z ujemnego na dodatni.
+- punkt 6.2832 (~2π ≈ 6.283185307) jest prawdziwym miejscem zerowym funkcji tan(x) (tan(2π) = 0).
+- algorytm szybko zbiega do dokładnego wyniku (wartości f(x) maleją do ~0, np. 7.31689e-05 → 1.26008e-12).
+- fzero działa poprawnie, bo punkt startowy jest blisko prawdziwego zera.
+
+Podsumowanie: punkt 6.0 nie jest blisko asymptoty, zmiana znaku występuje przez prawdziwe miejsce zerowe. Zbieżność jest osiągana szybko i precyzyjnie, a wynik jest prawidłowy.
+
+3. Działanie fzero:
+- najpierw wyszukuje przedział ze zmianą znaku, a następnie stosuje metody interpolacji i bisekcji, by znaleźć wartość zerową. W przypadku funkcji tangens wybór punktu startowego determinuje, czy algorytm "wpadnie" w okolice osobliwości czy też skoncentruje się na rzeczywistym zerze.
+
+4. Wnioski:
+- funkcja fzero opiera się na zmianie znaku funkcji, przez co może generować błędne wyniki w pobliżu asymptot.
+- im dalej od asymptot wybrany zostanie punkt startowy, tym większa szansa na poprawny wynik
+
