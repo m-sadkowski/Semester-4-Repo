@@ -1,0 +1,23 @@
+1. Co demonstruje zadany program?
+- mechanizm komunikacji miedzy procesami za pomoca potokow. Dzialanie polega na wprowadzeniu ciagu znakow, jego przeksztalceniu na duze litery i wyświetleniu wyniku.
+
+2. Z ilu procesów składa się zadany program? Co wykonuje każdy z nich?
+- z 3 procesow, pierwszy przyjmuje ciag znakow, usuwa znak nowej linii i zapisuje go do bufora. Drugi odczytuje bufor i zamienia w nim male litery na duze, zapisuje nastepnie dane do drugiego potoku. Trzeci (czyli proces glowny, rodzic) odczytuje dane z bufora i wyswietla wynik.
+
+3. Co się dzieje z procesami po wykonaniu swojego zadania?
+- kazdy proces po zakonczeniu swojego zadania zamyka odpowiednie konce potokow i konczy dzialanie, wywolujac exit(EXIT_SUCCESS).
+
+4. Dlaczego program używa fork()?
+- fork() jest uzywane do tworzenia procesow potomnych, ktore wykonuja swoje odpowiednie zadania, co pozwala na rownolegle przetwarzanie i komunikacje miedzy nimi za pomoca potokow.
+
+5. Jaką rolę pełni funkcja pipe() w programie?
+- pipe() tworzy potoki umozliwiajace przesylanie danych miedzy procesami. Potok pipe1 sluzy do przekazania wejscia od uzytkownika do procesu przeksztalcajacego tekst, a pipe2 do przeslania wyniku do procesu wyswietlajacego.
+
+6. Co by się stało, gdyby program nie używał waitpid()?
+- brak waitpid() oznaczalby, ze procesy potomne moglyby pozostac jako procesy zombie, a proces rodzic moglby zakonczyć się przed ich ukonczeniem, co mogloby prowadzic do utraty kontroli nad ich wykonaniem.
+
+7. Jak program radzi sobie z usunięciem znaku nowej linii \n?
+- program sprawdza, czy ostatni znak w buforze to \n, a jesli tak, to zamienia go na \0
+
+8. Jaką zmianę w programie musielibyśmy wprowadzić, żeby zamiast zamiany na duże litery, otrzymywać zamiany na małe litery?
+- zamienic funkcję toupper(buffer[i]) na tolower(buffer[i]) w procesie 2, co zamiast zamiany malych liter na duze, zamienialoby duze litery na male

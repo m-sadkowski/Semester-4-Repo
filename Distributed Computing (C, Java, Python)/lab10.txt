@@ -1,0 +1,31 @@
+1. Co implementuje podglądowy kod źródłowy? 
+	- kod demonstruje synchronizacje watkow przy uzyciu semafora binarnego. Implementuje wzorzec sekcji krytycznej, gdzie wiele watkow wspolbieznie modyfikuje wspoldzielony zasob, a semafor zapewnia bezpieczny dostep, unikajac wyscigow
+
+2. Ile wątków jest utworzonych w tym programie? Gdzie jest to zdefiniowane?  
+	- tworzonych jest 5 watkow. Definicja znajduje sie w metodzie main klasy SemaphoreDemo (Thread[] threads = new Thread[5])
+
+3. Czym jest semafor? Jaką rolę spełnia w tym kodzie? Co by się stało, gdyby nie był zaimplementowany? 
+	- semafor to mechanizm synchronizacji, ktory kontroluje dotsep do zasobpw wspoldzielonych. BinarySemaphore dziala jak mutex, zapewniajac ze tylko jeden watek na raz moze wykonac sekcje krytyczna
+	- bez semafora wystapilyby wyscigi, bo wiele watkow mogloby jednoczesnie czytac/modyfikowac counter, prowadzac do niepoprawnych wynikow
+
+4. Jaką rolę pełni klasa BinarySemaphore w projekcie? 
+	- implementuje semafor binarny za pomoca BlockingQueue 
+	- udostepnia dwie operacje: P() - blokuje semafor (pobiera token z kolejki), V() (release) - odblokowuje semafor (dodaje token do kolejki)
+	- zapewnia bezpieczenstwo watkow i wykluczanie wzajemne w sekcji krytycznej
+
+5. Gdzie znajduje się sprawdzenie, czy semafor jest aktualnie odblokowany?
+	- w metodzie isAvailable() w klasie BinarySemaphore
+
+6. Jaka jest rola try() ... catch() w tym programie?
+	- w IncrementTask try/catch obsluguje przerwania podczas operacji na semaforze lub Thread.sleep()
+	- blok finally gwarantuje, ze semafor zostanie zawsze odblokowany, nawet jesli wystapi wyjatek
+ 	- w main try/catch obsluguje przerwania podczas join()
+
+7. Jaką rolę pełni SemaphoreDemo?
+	- jest klasa główna demonstrujaca dzialanie semafora binarnego
+	- tworyz wspoldzielony licznik i watki, ktore go modyfikuja
+	- pokazuje, jak semafor chroni sekcje krytyczna, aby wynik koccowy byl poprawny (5000 = 5 watkow * 1000 inkrementacji)
+
+8. Dlaczego BinarySemaphore używa LinkedBlockingQueue zamiast prostego licznika?
+	- BlockingQueue zapewnia wbudowana synchronizacje i blokowanie watkow, wiec gdy kolejka jest pusta, take() blokuje watek az do pojawienia sie tokena 
+ 	- prosty licznik wymagalby dodatkowych mechanizmow, co skomplikowaloby kod

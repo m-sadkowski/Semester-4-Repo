@@ -1,0 +1,49 @@
+1. Co wskazuje na to, ze ten program jest wielowatkowy?
+	- wykorzystanie interfejsu Runnable w klasach Producer i Consumer, co pozwala na uruchomienie ich w osobnych watkach
+	- tworzenie i uruchamianie watkow w klasie Main za pomoca Thread
+	- synchronizacja dostepu do wspoldzielonego zasobu (Warehouse) przy uzyciu Lock
+	- obsluga przerwan watkow
+
+2. Jaki model implementuje ten program?
+	- program implementuje model producent-konsument, gdzie producenci dodaja towary do magazynu, a konsumenci je pobieraja. Magazyn pelni role bufora o ograniczonej pojemnosci, a dostep do niego jest synchronizowany, aby uniknac problemow zwiazanych z wspolbieznoscia.
+
+3. Kiedy mamy sytuacje, gdzie wielu uzytkownikow dokonuje zakupu, jakie musi byc zaimplementowane zabezpieczenie, zeby uniknac wyscigow?
+	- aby uniknac wyscigow przy dostepie do wspoldzielonego magazynu, program uzywa mechanizmu blokady (Lock). W klasie Warehouse kazda operacja na magazynie jest chroniona przez lock.lock() i lock.unlock(), co zapewnia, ze tylko jeden watek na raz moze modyfikowac stan magazynu
+
+4. Co jest warunkiem zakonczenia sie tego programu?
+	- program konczy dzialanie po uplywie 30 sekund (czas okreslony w main). Po tym czasie wszystkie watki producentow i konsumentow sa przerywane, a glowny watek czeka na ich zakonczenie
+
+5. Zaproponuj dwie zmiany (modyfikacje w kodzie) wczesniejszego zakonczenia pracy programu:
+
+	a) Magazyn zostal przepelniony: w metodzie addProduct w klasie Warehouse mozna dodac sprawdzanie, czy magazyn jest pelny, i zglaszac to jako warunek zakonczenia
+
+public boolean addProduct(String productType, int quantity) {
+    lock.lock();
+    try {
+        if (currentOccupancy + quantity > capacity) {
+            System.out.println("Magazyn pelny!");
+            System.exit(0);
+            return false;
+        }
+        // ...
+    } finally {
+        lock.unlock();
+    }
+}
+
+	b) Klient nie mogl dokonac zakupu z powodu braku towaru: w metodzie getProduct w klasie Warehouse mozna dodac sprawdzanie, czy w magazynie nie ma zadnych produktow, i zglaszac to jako warunek zakonczenia
+
+public int getProduct(String productType, int requestedQuantity) {
+    lock.lock();
+    try {
+        int availableQuantity = products.getOrDefault(productType, 0);
+        if (availableQuantity == 0 && products.isEmpty()) {
+            System.out.println("Brak towaru w magazynie!");
+            System.exit(0);
+            return 0;
+        }
+    // ...
+    } finally {
+        lock.unlock();
+    }
+}

@@ -1,0 +1,24 @@
+1. Jaki jest główny cel aplikacji?
+- wygenerowanie liczb pierwszych z zadanego zakresu
+
+2. Jakie elementy kodu są odpowiedzialne za uruchamianie wątków?
+- funkcje pthread_create() 
+
+3. Czym zajmują się wątki potomne?
+- customers sprawdzja czy liczby wygenerowane przez producers sa pierwsze
+
+4. Ile liczb pierwszych jest wyświetlonych z zadanego przedziału?
+- miedzy 1227 a 1229, co uruchomienie inna ilosc
+
+5. Dlaczego używamy mutex'ów pthread_mutex_t?
+- jeśli wątek napotka semafor opuszczony, nie zostaje wstrzymany w kolejce wątków oczekujących na semaforze, a kończy działanie natychmiast zwracając
+wartość EBUSY
+
+6. W jaki sposób kolejka priorytetowa pqueue *buffer jest używana w tym kodzie? Jaki priorytet ma pobierana przez konsumenta liczba?
+- producers laduja liczby do kolejki, a customers pobieraja z niej kolejne liczby i sprawdzaja czy jest pierwsza
+
+7. Jak zoptymalizowano funkcję is_prime() w porównaniu do prostego sprawdzania podzielników?
+- podzielniki sa sprawdzane do pierwiastka z liczby, ponadto pomija sprawdzanie liczb parzystych
+
+8. Co się stanie, jeśli current_number przekroczy MAX_NUMBER?
+- funkcja producenta przestanie generowac kolejne liczby, zablokuje bufor, oznaczy ze liczby zostaly wygenerowane poprzez zmienna done i odblokuje bufor
