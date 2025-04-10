@@ -18,13 +18,13 @@
 
 6. Jaka jest rola try() ... catch() w tym programie?
 	- w IncrementTask try/catch obsluguje przerwania podczas operacji na semaforze lub Thread.sleep()
-	- blok finally gwarantuje, ze semafor zostanie zawsze odblokowany, nawet jesli wystapi wyjatek
+	- blok finally robi tak, ze semafor zostanie zawsze odblokowany, nawet jesli wystapi wyjatek
  	- w main try/catch obsluguje przerwania podczas join()
 
 7. Jaką rolę pełni SemaphoreDemo?
-	- jest klasa główna demonstrujaca dzialanie semafora binarnego
+	- jest klasa glowna demonstrujaca dzialanie semafora binarnego
 	- tworyz wspoldzielony licznik i watki, ktore go modyfikuja
-	- pokazuje, jak semafor chroni sekcje krytyczna, aby wynik koccowy byl poprawny (5000 = 5 watkow * 1000 inkrementacji)
+	- pokazuje, jak semafor chroni sekcje krytyzcna, aby wynik koccowy byl poprawny (5000 = 5 watkow * 1000 inkrementacji)
 
 8. Dlaczego BinarySemaphore używa LinkedBlockingQueue zamiast prostego licznika?
 	- BlockingQueue zapewnia wbudowana synchronizacje i blokowanie watkow, wiec gdy kolejka jest pusta, take() blokuje watek az do pojawienia sie tokena 
