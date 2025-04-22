@@ -53,10 +53,11 @@ class Node:
         # TODO implement feature selection
 
         """
-        feature_subset = feature_subset or X.shape[1]
-        features = np.random.choice(X.shape[1], feature_subset, replace=False)
-
-        for d in features:
+        feature_indices = np.arange(X.shape[1])
+        if feature_subset is not None and feature_subset < X.shape[1]:
+            feature_indices = np.random.choice(feature_indices, feature_subset, replace=False)
+            
+        for d in feature_indices:
         """
 
         for d in range(X.shape[1]):
