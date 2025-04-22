@@ -28,7 +28,8 @@ class RandomForest:
         return forest_predictions
 
     def bagging(self, X, y):
-        X_selected, y_selected = None, None
-        # TODO implement bagging
+        # dzięki losowaniu ze zwracaniem podzbiór zawiera powtórzone próbki i około 63% unikalnych obserwacji
+        idx = np.random.choice(X.shape[0], X.shape[0], replace=True) # losujemy indeksy ze zwracaniem
+        X_selected, y_selected = X[idx], y[idx] # zwracamy podzbiór danych
 
         return X_selected, y_selected

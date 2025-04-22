@@ -17,6 +17,22 @@ class Node:
 
         # TODO find position of best data split
 
+        for idx in possible_splits:
+            left_split, right_split = y[:idx + 1], y[idx + 1:]
+
+            left_neg, left_pos = np.bincount(left_split, minlength=2)
+            right_neg, right_pos = np.bincount(right_split, minlength=2)
+
+            gini_left = 1 - (left_pos / (left_pos + left_neg)) ** 2 - (left_neg / (left_pos + left_neg)) ** 2 # 4.3
+            gini_right = 1 - (right_pos / (right_pos + right_neg)) ** 2 - (right_neg / (right_pos + right_neg)) ** 2 # 4.4
+            left = left_pos + left_neg
+            right = right_pos + right_neg
+            gini_gain = 1 - (left / (left + right) * gini_left + right / (left + right) * gini_right) # 4.2 ale z plusem bo z minusem lipa
+
+            if best_gain < gini_gain:
+                best_gain = gini_gain
+                best_idx = idx
+
         return best_idx, best_gain
 
     def split_data(self, X, y, idx, val):
@@ -35,6 +51,13 @@ class Node:
         best_split = None
 
         # TODO implement feature selection
+
+        """
+        feature_subset = feature_subset or X.shape[1]
+        features = np.random.choice(X.shape[1], feature_subset, replace=False)
+
+        for d in features:
+        """
 
         for d in range(X.shape[1]):
             order = np.argsort(X[:, d])
