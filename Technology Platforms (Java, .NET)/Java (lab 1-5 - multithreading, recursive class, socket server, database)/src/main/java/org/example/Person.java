@@ -1,29 +1,35 @@
 package org.example;
 
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-public class Person implements Comparable<Person> {
+@Entity
+public class Person implements Comparable<Person>, Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String imie;
     private String nazwisko;
     private int wiek;
 
-    private Set<Person> dzieci;
+    @OneToMany(mappedBy = "rodzic", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Child> dzieci = new HashSet<>();
 
-    public Person(String imie, String nazwisko, int wiek, Set<Person> dzieci) {
-        this.imie = imie;
-        this.nazwisko = nazwisko;
-        this.wiek = wiek;
-        this.dzieci = dzieci;
-    }
+    public Person() {}
 
     public Person(String imie, String nazwisko, int wiek) {
         this.imie = imie;
         this.nazwisko = nazwisko;
         this.wiek = wiek;
-        this.dzieci = new HashSet<>();
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getImie() {
@@ -50,12 +56,17 @@ public class Person implements Comparable<Person> {
         this.wiek = wiek;
     }
 
-    public Set<Person> getDzieci() {
+    public Set<Child> getDzieci() {
         return dzieci;
     }
 
-    public void setDzieci(Set<Person> dzieci) {
+    public void setDzieci(Set<Child> dzieci) {
         this.dzieci = dzieci;
+    }
+
+    public void addChild(Child child) {
+        dzieci.add(child);
+        child.setRodzic(this);
     }
 
     @Override
@@ -73,9 +84,13 @@ public class Person implements Comparable<Person> {
 
     @Override
     public String toString() {
-        return imie + " " + nazwisko + ", lat " + wiek + ", dzieci: " + dzieci;
+        return "Person{" +
+                "id=" + id +
+                ", imie='" + imie + '\'' +
+                ", nazwisko='" + nazwisko + '\'' +
+                ", wiek=" + wiek +
+                '}';
     }
-
     @Override
     public int compareTo(Person other) {
         int result = this.nazwisko.compareTo(other.nazwisko);

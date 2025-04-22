@@ -1,6 +1,8 @@
 package org.example;
 
-public class SharedResults {
+import java.io.Serializable;
+
+public class SharedResults implements Serializable {
     private double sum = 0;
     private double sumSquares = 0;
     private int count = 0;
@@ -27,5 +29,6 @@ public class SharedResults {
         System.out.println("Średnia:            " + getMean());
         System.out.println("Wariancja:          " + getVariance());
         System.out.println("Odchylenie std:     " + Math.sqrt(getVariance()));
+        System.out.println("\n");
     }
 }
