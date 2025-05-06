@@ -3,7 +3,7 @@
 Działanie:
 - znaleziono przedział [4.24544, 4.75456], w którym tan(x) zmienia znak z dodatniego na ujemny.
 - punkt 4.7124 (~3π/2 ≈ 4.71238898) jest asymptotą pionową funkcji tan(x), a nie miejscem zerowym. Funkcja zmienia znak wokół asymptoty (tan(4.7) > 0, tan(4.72) < 0), co myli algorytm.
-- wartości funkcji tan(x) rosną do ±∞ w miarę zawężania przedziału (np. f(x) = 1.0881e+07, 1.70809e+09).
+- wartości funkcji tan(x) rosną do nieskończoności w miarę zawężania przedziału (np. f(x) = 1.0881e+07, 1.70809e+09).
 - fzero błędnie interpretuje zmianę znaku wokół asymptoty jako miejsce zerowe, mimo ostrzeżenia o możliwej osobliwości.
 
 Podsumowanie: punkt 4.5 jest blisko asymptoty (3π/2), która generuje zmianę znaku, przez co algorytm wykrywa fałszywe miejsce zerowe. Występuje ostrzeżenie o osobliwości, jednak wynik jest błędny.

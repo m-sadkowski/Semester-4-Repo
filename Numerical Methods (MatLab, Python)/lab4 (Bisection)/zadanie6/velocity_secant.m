@@ -58,6 +58,8 @@ xlabel("Iteracja");
 ylabel("Różnica między kolejnymi przybliżeniami");
 grid on;
 
+iterations
+
 end
 
 function velocity_delta = velocity_difference(t)
