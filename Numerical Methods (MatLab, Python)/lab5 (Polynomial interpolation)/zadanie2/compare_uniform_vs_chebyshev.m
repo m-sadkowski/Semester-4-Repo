@@ -1,4 +1,5 @@
-function [N, x_uniform, y_fine_uniform, x_chebyshev, y_fine_chebyshev] = compare_uniform_vs_chebyshev()
+function [N, x_uniform, y_fine_uniform, x_chebyshev, y_fine_chebyshev] = ...
+        compare_uniform_vs_chebyshev()
 % Funkcja ilustruje porównanie działania interpolacji wielomianowej funkcji
 % Rungego wyznaczonej dla a) węzłów rozmieszczonych równomiernie,
 % b) węzłów Czebyszewa.
@@ -9,10 +10,8 @@ function [N, x_uniform, y_fine_uniform, x_chebyshev, y_fine_chebyshev] = compare
 %   równomiernie rozmieszczonych węzłów interpolacji
 % x_chebyshev - węzły Czebyszewa
 % y_fine_chebyshev - interpolacja wielomianowa wyznaczona dla węzłów Czebyszewa
-%
-% Oznaczonie TODO wskazuje fragmenty kodu wymagające zmian.
 
-    N = 15; % liczba węzłów interpolacji DONE
+    N = 15; % liczba węzłów interpolacji
 
     % Gęsta siatka punktów do testowania interpolacji
     x_fine = linspace(-1, 1, 1000);
@@ -28,7 +27,7 @@ function [N, x_uniform, y_fine_uniform, x_chebyshev, y_fine_chebyshev] = compare
     % wyznaczenie macierzy Vandermonde'a
     V_uniform = get_vandermonde_matrix(x_uniform);
     % wyznaczenie współczynników wielomianu interpolacyjnego
-    coeff_uniform = V_uniform \ y_uniform'; % DONE
+    coeff_uniform = V_uniform \ y_uniform';
     % odwrócenie kolejności wsp. wielomianów: dostosowanie do polyval
     coeff_uniform = coeff_uniform(end:-1:1);
     % wyznaczenie wartości wielomianu w punktach testowych
@@ -36,17 +35,16 @@ function [N, x_uniform, y_fine_uniform, x_chebyshev, y_fine_chebyshev] = compare
 
     % 2. węzły Czebyszewa II rodzaju
     x_chebyshev = get_chebyshev_nodes(N);
-    y_chebyshev = runge_function(x_chebyshev); % DONE
-    V_chebyshev = get_vandermonde_matrix(x_chebyshev); % DONE
-    coeff_chebyshev = V_chebyshev \ y_chebyshev'; % DONE
+    y_chebyshev = runge_function(x_chebyshev);
+    V_chebyshev = get_vandermonde_matrix(x_chebyshev);
+    coeff_chebyshev = V_chebyshev \ y_chebyshev';
     coeff_chebyshev = coeff_chebyshev (end:-1:1);
-    y_fine_chebyshev = polyval(coeff_chebyshev, x_fine); % DONE
+    y_fine_chebyshev = polyval(coeff_chebyshev, x_fine);
 
     % 3. Wykresy
     subplot(2,1,1);
     plot(x_fine, y_fine_reference, 'k--', 'LineWidth', 2, 'DisplayName', 'Funkcja wzorcowa');
     hold on;
-    % DONE
     plot(x_fine, y_fine_uniform, 'm', 'DisplayName', ['Interpolacja N = ', num2str(N)]);
     plot(x_uniform, y_uniform, 'mo', 'DisplayName', ['Wartości w węzłach. N = ', num2str(N)]);
     hold off;
@@ -59,7 +57,6 @@ function [N, x_uniform, y_fine_uniform, x_chebyshev, y_fine_chebyshev] = compare
     subplot(2,1,2);
     plot(x_fine, y_fine_reference, 'k--', 'LineWidth', 2, 'DisplayName', 'Funkcja wzorcowa');
     hold on;
-    % DONE
     plot(x_fine, y_fine_chebyshev, 'b', 'DisplayName', ['Interpolacja N = ', num2str(N)]);
     plot(x_chebyshev, y_chebyshev, 'bo', 'DisplayName', ['Wartości w węzłach. N = ', num2str(N)]);
     hold off ;
@@ -81,7 +78,7 @@ end
 function V = get_vandermonde_matrix(x)
     % Buduje macierz Vandermonde’a na podstawie wektora węzłów interpolacji x.
     N = length(x);
-    V = zeros(N, N); % DONE
+    V = zeros(N, N);
     for i = 1:N
         V(:, i) = x.^(i-1);
     end
