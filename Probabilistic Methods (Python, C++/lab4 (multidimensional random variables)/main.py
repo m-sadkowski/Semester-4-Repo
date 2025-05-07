@@ -61,3 +61,55 @@ for i in range(1, 5):
     for j in range(1, 5):
         print(results[i][j], end="\t")  # Wyświetla częstości dla par (X, Y)
     print()
+    
+
+"""
+def generate_x():
+    p = random.random()
+    
+    if p < 0.5:
+        return 1
+    if p < 0.7: 
+        return 2
+    if p < 0.9:
+        return 3
+    return 4     
+    
+def generate_y(x):
+    p = random.random()
+    
+    if x == 1:
+        if p < 0.2:    # P(Y=1 | X=1) = 0.2
+            return 1
+        return 4          # P(Y=4 | X=1) = 0.8
+    if x == 2:
+        return 1          # P(Y=1 | X=2) = 1.0
+    if x == 3:
+        if p < 0.5:    # P(Y=2 | X=3) = 0.5
+            return 2
+        return 4          # P(Y=4 | X=3) = 0.5
+    if x == 4:
+        return 3          # P(Y=3 | X=4) = 1.0
+
+def create_random_vector():
+    x = generate_x()
+    y = generate_y(x)
+    return x, y
+
+results = [[0 for _ in range(5)] for _ in range(5)]
+
+for _ in range(100_000):
+    x, y = create_random_vector()
+    results[x][y] += 1
+
+print("X/Y", end="\t")
+for i in range(1, 5):
+    print(i, end="\t")
+print()
+
+for i in range(1, 5):
+    print(i, end="\t")
+    for j in range(1, 5):
+        print(results[i][j], end="\t")
+    print()
+"""
