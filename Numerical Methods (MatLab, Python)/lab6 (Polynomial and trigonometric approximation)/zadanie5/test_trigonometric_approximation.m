@@ -18,9 +18,8 @@ function [dates, y, M, a, b, x_fine, ya, rmse_values] = test_trigonometric_appro
 
     load energy_2025
 
-    dates = []; % dates = energy_2025.C.S.Dates; % TODO
-    y = []; % y = energy_2025.C.S.EnergyProduction; % TODO
-
+    dates = energy_2025.Poland.Coal.Dates;
+    y = energy_2025.Poland.Coal.EnergyProduction;
 
     N = numel(y);
     x = (0:N-1)';  % oryginalna siatka
@@ -47,6 +46,23 @@ function [dates, y, M, a, b, x_fine, ya, rmse_values] = test_trigonometric_appro
 
     % Wykresy
     figure
+
+    subplot(2, 1, 1);
+    plot(1:k_max, rmse_values, 'b-', 'LineWidth', 1.5);
+    title('RMSE w zależności od liczby harmonicznych');
+    xlabel('Liczba harmonicznych');
+    ylabel('RMSE');
+    grid on;
+
+    subplot(2, 1, 2);
+    plot(x, y, 'k-', 'DisplayName', 'Dane oryginalne', 'LineWidth', 1.5); hold on;
+    plot(x_fine, ya, 'r-', 'DisplayName', sprintf('Aproksymacja (%d harmonicznych)', M), 'LineWidth', 1.5);
+    hold off;
+    title('Aproksymacja trygonometryczna');
+    xlabel('Indeks');
+    ylabel('Produkcja energii');
+    legend('Location', 'best');
+    grid on;
 end
 
 function ya = trigonometric_approximation(x_fine, N, M, a, b)
@@ -72,8 +88,7 @@ function ya = trigonometric_approximation(x_fine, N, M, a, b)
     end
 
     for n = 1:M
-        % TODO:
-        % ya = ya + a(n+1)*cos(2*pi*n*x_fine/N) + 
+        ya = ya + a(n+1)*cos(2*pi*n*x_fine/N) + b(n+1)*sin(2*pi*n*x_fine/N);
     end
 end
 

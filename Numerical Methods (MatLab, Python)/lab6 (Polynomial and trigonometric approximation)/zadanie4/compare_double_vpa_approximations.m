@@ -50,7 +50,7 @@ function [dates, y, M, x_fine, c, ya, c_vpa, yv] = compare_double_vpa_approximat
     c = polyfit_qr(x, y, M);
     c = c(end:-1:1); % odwrócenie kolejności wektora c: dostosowanie do polyval
 
-    ya = polyval(c, x);
+    ya = polyval(c, x_fine);
 
     % obliczenia dla wykresu środkowego (precyzja vpa)
     y_vpa = vpa(y);
@@ -59,19 +59,36 @@ function [dates, y, M, x_fine, c, ya, c_vpa, yv] = compare_double_vpa_approximat
     c_vpa = c_vpa(end:-1:1); % odwrócenie kolejności wektora c: dostosowanie do polyval
     yv = double(polyval_vpa(c_vpa, x_fine_vpa));
 
-    % TODO:
     % Wykresy
     ymax = max(y)*2;
     ymin = -0.25*ymax;
 
-    % Wykres 1: ya
-    % subplot(3,1,1);
-    % plots
-    % zmiana limitów dla osi y
-    % ax = axis;
-    % ax(3) = ymin;
-    % ax(4) = ymax;
-    % axis(ax)
+    figure;
+    subplot(3, 1, 1);
+    plot(x, y, 'k-', 'DisplayName', 'Dane oryginalne'); hold on;
+    plot(x_fine, ya, 'r-', 'DisplayName', 'Aproksymacja (double)');
+    hold off;
+    title('Aproksymacja z double');
+    xlabel('x');
+    ylabel('y');
+    legend('Location', 'best');
+    ylim([ymin, ymax]);
+
+    subplot(3, 1, 2);
+    plot(x, y, 'k-', 'DisplayName', 'Dane oryginalne'); hold on;
+    plot(x_fine, yv, 'b-', 'DisplayName', 'Aproksymacja (vpa)');
+    hold off;
+    title('Aproksymacja z vpa');
+    xlabel('x');
+    ylabel('y');
+    legend('Location', 'best');
+    ylim([ymin, ymax]);
+
+    subplot(3, 1, 3);
+    plot_c_range(c, c_vpa);
+    title('Zakres wartości współczynników w double i vpa');
+    xlabel('Indeks współczynnika');
+    ylabel('Log wartości współczynników');
 
 end
 
@@ -103,11 +120,11 @@ function c_vpa = polyfit_qr_vpa(x, y, M)
 end
 
 function y = polyval_vpa(coefficients, x)
-% Oblicza wartość wielomianu w punktach x dla współczynników coefficients.
-% Obliczenia wykonywane są na zmiennych vpa.
-% coefficients – wektor współczynników wielomianu w kolejności od najwyższej potęgi
-% x – wektor argumentów (vpa)
-% y – wektor wartości wielomianu (vpa)
+    % Oblicza wartość wielomianu w punktach x dla współczynników coefficients.
+    % Obliczenia wykonywane są na zmiennych vpa.
+    % coefficients – wektor współczynników wielomianu w kolejności od najwyższej potęgi
+    % x – wektor argumentów (vpa)
+    % y – wektor wartości wielomianu (vpa)
 
     n = length(coefficients);
     y = vpa(zeros(size(x)));  % inicjalizacja wyniku jako vpa
