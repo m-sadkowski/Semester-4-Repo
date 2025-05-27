@@ -43,14 +43,14 @@ def zad1_single_neuron(student_id):
             :return: wyjście neuronu: np.array o rozmiarze [n_samples, 1]
             """
             # TODO (0.5 point)
-            return self.f_act(x_data @ self.W + self.b) # TUTAJ
+            return self.f_act(x_data @ self.W + self.b)
 
     # neuron zainicjowany losowymi wagami
     model = SingleNeuron(n_in=n_features, f_act=hardlim)
 
     # TODO: ustawienie właściwych wag (0.5 point)
-    model.W[:, 0] = [-3, -0.6] # TUTAJ
-    model.b[:] = [0.4] # TUTAJ
+    model.W[:, 0] = [-3, -0.6]
+    model.b[:] = [0.4]
 
     # działanie i ocena modelu
     y_pred = model.forward(x)
@@ -81,26 +81,26 @@ def zad2_two_layer_net(student_id):
 
         def forward(self, x_data):
             # TODO
-            return self.f_act(x_data @ self.W + self.b) # TUTAJ
+            return self.f_act(x_data @ self.W + self.b)
 
     # TODO: warstwy mozna składać w wiekszy model
     class SimpleTwoLayerNetwork:
         def __init__(self, n_in, n_hidden, n_out):
-            self.hidden_layer = DenseLayer(n_in, n_hidden, relu) # TUTAJ
-            self.output_layer = DenseLayer(n_hidden, n_out, hardlim) # TUTAJ
+            self.hidden_layer = DenseLayer(n_in, n_hidden, relu)
+            self.output_layer = DenseLayer(n_hidden, n_out, hardlim)
 
         def forward(self, x_data):
-            return self.output_layer.forward(self.hidden_layer.forward(x_data)) # TUTAJ
+            return self.output_layer.forward(self.hidden_layer.forward(x_data))
 
     # model zainicjowany losowymi wagami
     model = SimpleTwoLayerNetwork(n_in=n_features, n_hidden=2, n_out=1)
 
     # TODO: ustawienie właściwych wag
-    model.hidden_layer.W[:, 0] = [-0.4, 0.9] # wagi neuronu h1 # TUTAJ
-    model.hidden_layer.W[:, 1] = [0.3, -0.9] # wagi neuronu h2 # TUTAJ
-    model.hidden_layer.b[:] = [-0.2, 0.4] # biasy neuronów h1 i h2 # TUTAJ
-    model.output_layer.W[:, 0] = [0.9, 1.3] # wagi neuronu wyjściowego # TUTAJ
-    model.output_layer.b[:] = [-0.5] # bias neuronu wyjściowego # TUTAJ
+    model.hidden_layer.W[:, 0] = [-0.4, 0.9] # wagi neuronu h1
+    model.hidden_layer.W[:, 1] = [0.3, -0.9] # wagi neuronu h2
+    model.hidden_layer.b[:] = [-0.2, 0.4] # biasy neuronów h1 i h2
+    model.output_layer.W[:, 0] = [0.9, 1.3] # wagi neuronu wyjściowego
+    model.output_layer.b[:] = [-0.5] # bias neuronu wyjściowego
 
     # działanie i ocena modelu
     y_pred = model.forward(x)

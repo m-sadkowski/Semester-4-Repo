@@ -50,12 +50,12 @@ def training(model, x, y):
 
         # TODO losowa paczka (mini-batch) danych o rozmiarze minibatch_size
         #  (użyj torch.randint do wylosowania indeksów przykładów
-        idx = torch.randint(0, x.shape[0], (minibatch_size,)) # TUTAJ
-        x_batch = x[idx] # TUTAJ
-        y_batch = y[idx] # TUTAJ
+        idx = torch.randint(0, x.shape[0], (minibatch_size,))
+        x_batch = x[idx]
+        y_batch = y[idx]
 
         # TODO forward pass modelu + policzenie wartości funkcji kosztu (użyj loss_fn zdefiniowanego wyżej)
-        loss = loss_fn(model.forward(x_batch), y_batch) # TUTAJ
+        loss = loss_fn(model.forward(x_batch), y_batch)
 
         # backward pass
         for p in model.parameters():
@@ -64,9 +64,9 @@ def training(model, x, y):
                          # z parametrów, który wpływa na wartość loss
 
         # TODO update params
-        with torch.no_grad(): # TUTAJ
-            for p in model.parameters(): # TUTAJ
-                p -= learning_rate * p.grad # TUTAJ
+        with torch.no_grad():
+            for p in model.parameters():
+                p -= learning_rate * p.grad
 
         # track stats
         history.append(loss.log10().item())
