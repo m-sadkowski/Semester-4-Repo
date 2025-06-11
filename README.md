@@ -3,6 +3,11 @@
 ## Overview
 This repository contains various materials and assignments from different courses undertaken during university studies (semester 4) at Gdańsk University of Technology. Each folder corresponds to a specific subject and includes relevant code, documentation, and reports.
 
+## Disclaimer / Zastrzeżenie
+Duża część kodów zawartych w tym repozytorium została zaczerpnięta z zasobów Politechniki Gdańskiej i zmodyfikowana lub rozbudowana na potrzeby zajęć laboratoryjnych prowadzonych na uczelni.
+
+A large portion of the code contained in this repository has been sourced from materials provided by Gdańsk University of Technology and has been modified or extended for laboratory classes conducted at the university.
+
 ## Courses
 
 ### 1. Artificial Intelligence
