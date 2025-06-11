@@ -4,9 +4,11 @@
 This repository contains various materials and assignments from different courses undertaken during university studies (semester 4) at Gdańsk University of Technology. Each folder corresponds to a specific subject and includes relevant code, documentation, and reports.
 
 ## Disclaimer / Zastrzeżenie
-Duża część kodów zawartych w tym repozytorium została zaczerpnięta z zasobów Politechniki Gdańskiej i zmodyfikowana lub rozbudowana na potrzeby zajęć laboratoryjnych prowadzonych na uczelni.
+Duża część kodów zawartych w tym repozytorium została zaczerpnięta z zasobów Politechniki Gdańskiej i zmodyfikowana lub rozbudowana na potrzeby zajęć laboratoryjnych prowadzonych na uczelni.  
+Dziękuję Politechnice Gdańskiej za udostępnienie materiałów pozwalających mi się rozwijać. Prawa autorskie do oryginalnych materiałów należą do uczelni. Repozytorium jest przeznaczone wyłącznie do celów edukacyjnych i niekomercyjnych.
 
-A large portion of the code contained in this repository has been sourced from materials provided by Gdańsk University of Technology and has been modified or extended for laboratory classes conducted at the university.
+A large portion of the code contained in this repository has been sourced from materials provided by Gdańsk University of Technology and has been modified or extended for laboratory classes conducted at the university.  
+I would like to sincerely thank Gdańsk University of Technology for providing these resources. The copyrights of the original materials belong to the university. This repository is intended solely for educational and non-commercial purposes.
 
 ## Courses
 
