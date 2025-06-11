@@ -1,3 +1,58 @@
+# compilator
+[Dd]ebug/
+[Dd]ebugPublic/
+[Dd]ist/
+[Dd]eploy/
+[Dd]ebug-windows/
+[Dd]ebug-linux/
+[Dd]ebug-macos/
+[Dd]ebug-x86/
+[Dd]ebug-x64/
+
+# build & output
+bin/
+obj/
+out/
+
+# ide
+.vs/
+.vscode/
+.idea/
+*.sln
+
+# settings
+*.user
+*.userosscache
+*.suo
+*.userprefs
+*.sln.docstates
+
+# config
+*.csproj.user
+*.sln.ide
+
+# nuget
+*.nupkg
+.nuget/
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# macOS
+.DS_Store
+
+# Linux
+*~
+
+# logs
+*.log
+
+# tests
+TestResults/
+
+publish/
+
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/

@@ -1,0 +1,126 @@
+﻿<Window x:Class="WpfApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp"
+        mc:Ignorable="d"
+        Title="Symulator NFZ" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Menu VerticalAlignment="Top">
+            <MenuItem Header="Aplikacja">
+                <MenuItem Header="Generuj dane" Click="GenerateData_Click"/>
+                <MenuItem Header="Odchylenie standardowe (Task)" Click="CalculateSDTask_Click"/>
+                <MenuItem Header="Odchylenie standardowe (Delegaty)" Click="CalculateSDDelegate_Click"/>
+                <MenuItem Header="Odchylenie standardowe (async-await)" Click="CalculateSDAsync_Click"/>
+                <MenuItem Header="Odchylenie standardowe (BackgroundWorker)" Click="CalculateSDWorker_Click"/>
+                <MenuItem Header="Wersja" Click="Version_Click"/>
+                <MenuItem Header="Wyjście" Click="Exit_Click"/>
+            </MenuItem>
+            <MenuItem Header="Dodaj osobę" Click="AddPerson_Click"/>
+            <MenuItem Header="XPath" Click="CallXPath_Click" />
+            <MenuItem Header="Eksportuj do HTML" Click="GenerateHtmlTable_Click"/>
+        </Menu>
+
+        <Grid Grid.Row="1">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="100*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Orientation="Horizontal" Margin="10,5,0,0">
+                    <Button Content="Poprzednia" Click="PreviousPage_Click" Padding="5" Margin="1" Height="25"/>
+                    <Button Content="Następna" Click="NextPage_Click" Padding="5" Margin="1" Height="25"/>
+                </StackPanel>
+
+                <TreeView Name="tvPeople" Grid.Row="1" Background="Transparent" BorderThickness="0" SelectedItemChanged="tvPeople_SelectedItemChanged" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling" >
+                    <TreeView.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Eksportuj do XML" Click="ExportToXml_Click"/>
+                            <MenuItem Header="Importuj z XML" Click="ImportFromXml_Click"/>
+                            <MenuItem Header="Sortuj po imieniu" Click="SortName"/>
+                            <MenuItem Header="Sortuj po wieku" Click="SortAge"/>
+                            <MenuItem Header="Znajdź Jana" Click="findByName"/>
+                            <MenuItem Header="Znajdź ID 2" Click="findById"/>
+                        </ContextMenu>
+                    </TreeView.ContextMenu>
+                </TreeView>
+
+            </Grid>
+
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="2*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Siatka danych osób:" FontSize="16" Margin="5"/>
+
+                <ToolBar VerticalAlignment="Top" Margin="0,31,0,0" Grid.RowSpan="2">
+                    <ComboBox x:Name="cbSearchProperty" 
+                          Width="120" 
+                          Margin="5" 
+                          IsEditable="True"
+                          ToolTip="Wybierz właściwość"
+                          GotFocus="CbSearchProperty_GotFocus"/>
+                    <TextBox x:Name="txtSearchValue" 
+                         Width="100" 
+                         Margin="5" 
+                         ToolTip="Wpisz wartość"/>
+                    <Button Content="Szukaj" 
+                        Click="SearchButton_Click" 
+                        Margin="5"/>
+                    <Button Content="Wyczyść" Click="ClearSearch_Click" />
+                </ToolBar>
+
+                <DataGrid x:Name="PeopleDataGrid"
+                          Grid.Row="2"
+                          ItemsSource="{Binding People}"
+                          AutoGenerateColumns="False"
+                          CanUserAddRows="True"
+                          CanUserDeleteRows="True"
+                          IsReadOnly="False"
+                          SelectionChanged="PeopleDataGrid_SelectionChanged"
+                          Margin="5"
+                          RowEditEnding="PeopleDataGrid_RowEditEnding"
+                          EnableRowVirtualization="True" 
+                          VirtualizingStackPanel.IsVirtualizing="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" Binding="{Binding Id}" IsReadOnly="True" SortMemberPath="Id"/>
+                        <DataGridTextColumn Header="Imię" Binding="{Binding Name}" SortMemberPath="Name"/>
+                        <DataGridTextColumn Header="Nazwisko" Binding="{Binding Surname}" SortMemberPath="Surname"/>
+                        <DataGridTextColumn Header="Wiek" Binding="{Binding Age}" SortMemberPath="Age"/>
+                        <DataGridTextColumn Header="Priorytet" Binding="{Binding Details.Priority}" SortMemberPath="Details.Priority"/>
+                        <DataGridTextColumn Header="Zdrowie" Binding="{Binding Details.HealthScore}" SortMemberPath="Details.HealthScore"/>
+                        <DataGridTextColumn Header="Kategoria" Binding="{Binding Details.Category}" SortMemberPath="Details.Category"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+
+                <StackPanel Grid.Row="3" Margin="5">
+                    <TextBlock Text="Dane wybranej osoby:" FontSize="16"/>
+                    <TextBlock x:Name="tbPersonData"
+                               Text="(brak zaznaczenia)"
+                               TextWrapping="Wrap"
+                               Margin="0,5,0,0"/>
+                </StackPanel>
+            </Grid>
+
+        </Grid>
+
+    </Grid>
+</Window>
